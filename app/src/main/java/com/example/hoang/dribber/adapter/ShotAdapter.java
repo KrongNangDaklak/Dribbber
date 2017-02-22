@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.hoang.dribber.R;
 import com.example.hoang.dribber.model.Shot;
 
@@ -30,14 +31,17 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.it_post, parent, false);
+        View view = layoutInflater.inflate(R.layout.row_item_shot, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textView.setText(shotArrayList.get(position).getAttachmentsCount());
-
+        holder.textView.setText(shotArrayList.get(position).getTitle());
+        Glide.with(context)
+                .load(shotArrayList.get(position).getImages().getTeaser())
+                .placeholder(R.mipmap.ic_launcher)
+                .into(holder.imageView);
     }
 
     @Override

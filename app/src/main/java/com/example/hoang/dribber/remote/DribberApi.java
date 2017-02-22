@@ -18,9 +18,9 @@ public interface DribberApi {
     final String BASE_URL = "https://api.dribbble.com/v1/";
     final String ACCESS_TOKEN = "8b71d82c6326a32a58494b88ef17829e4b27c47afc1cf73722da92eb259f18e0";
     @GET("shots")
-    Call<List<Shot>> getMovies(@Query("access_token") String apiKey, @Query("sort") String sortMode,@Query("page") int curentPage);
+    Call<List<Shot>> getShot(@Query("access_token") String apiKey, @Query("sort") String sortMode, @Query("page") int curentPage);
     @GET("shots")
-    Call<List<Shot>> getMovies(@Query("access_token") String apiKey);
+    Call<List<Shot>> getShot(@Query("access_token") String apiKey);
 
 
     class Factory {
