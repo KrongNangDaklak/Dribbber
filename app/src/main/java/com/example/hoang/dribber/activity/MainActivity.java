@@ -6,11 +6,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.hoang.dribber.R;
 import com.example.hoang.dribber.adapter.ShotAdapter;
 import com.example.hoang.dribber.model.Shot;
 import com.example.hoang.dribber.remote.DribberApi;
+import com.example.hoang.dribber.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.rcShot)
     RecyclerView rvShot;
 
+    private EndlessRecyclerViewScrollListener scrollListener;
+    LinearLayoutManager linearLayoutManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +47,23 @@ public class MainActivity extends AppCompatActivity {
         shotArrayList = new ArrayList<>();
         mShotAdapter = new ShotAdapter(getApplicationContext(), shotArrayList);
         rvShot.setAdapter(mShotAdapter);
-        rvShot.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-        fetchData("recent",1);
+//        rvShot.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvShot.setLayoutManager(linearLayoutManager);
+
+        fetchData("recent", 1);
+        loadMore();
+
+    }
+
+    private void loadMore() {
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                fetchData("recent",2);
+            }
+        };
+        rvShot.addOnScrollListener(scrollListener);
 
     }
 
@@ -53,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("HuuRetro", String.valueOf(response.isSuccessful()));
                 shotArrayList.addAll(response.body());
                 mShotAdapter.notifyDataSetChanged();
-
+                Toast.makeText(MainActivity.this, String.valueOf(linearLayoutManager.getItemCount()), Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onFailure(Call<List<Shot>> call, Throwable t) {
                 Log.d("HuuRetro", t.getLocalizedMessage() + t.getMessage() + t.getCause() + t.getStackTrace());
