@@ -16,7 +16,6 @@ import com.example.hoang.dribber.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,34 +32,35 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Shot> shotArrayList;
     @BindView(R.id.rcShot)
     RecyclerView rvShot;
-
     private EndlessRecyclerViewScrollListener scrollListener;
-    LinearLayoutManager linearLayoutManager;
-
+    private GridLayoutManager linearLayoutManager;
+    private int currentThisPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        currentThisPage = 1;
+        configRecyclerView();
+        fetchData("recent", currentThisPage);
+        loadMore();
 
+    }
+
+    private void configRecyclerView() {
         shotArrayList = new ArrayList<>();
         mShotAdapter = new ShotAdapter(getApplicationContext(), shotArrayList);
         rvShot.setAdapter(mShotAdapter);
-//        rvShot.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         rvShot.setLayoutManager(linearLayoutManager);
-
-        fetchData("recent", 1);
-        loadMore();
-
     }
 
     private void loadMore() {
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                fetchData("recent",2);
+                fetchData("recent", currentThisPage++);
             }
         };
         rvShot.addOnScrollListener(scrollListener);
