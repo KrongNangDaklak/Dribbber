@@ -44,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         currentThisPage = 1;
-        configRecyclerView();
-        fetchData("recent", currentThisPage);
-        loadMore();
+//        configRecyclerView();
+//        fetchData("recent", currentThisPage);
+//        loadMore();
+        startActivity(new Intent(MainActivity.this,ViewPagerActivity.class));
 
     }
 

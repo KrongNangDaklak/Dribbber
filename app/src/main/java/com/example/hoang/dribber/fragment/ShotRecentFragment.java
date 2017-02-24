@@ -3,6 +3,7 @@ package com.example.hoang.dribber.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,9 +40,9 @@ public class ShotRecentFragment extends Fragment {
     private String sortMode = "recent";
     @BindView(R.id.pbLoarMore)
     ProgressBar progressBar;
+    @BindView(R.id.swipeContainer)
+    SwipeRefreshLayout swipeContainer;
 
-
-    // adding
     private ShotAdapter mShotAdapter;
     ArrayList<Shot> shotArrayList;
     @BindView(R.id.recyclerView)
@@ -50,7 +51,6 @@ public class ShotRecentFragment extends Fragment {
     private GridLayoutManager linearLayoutManager;
     private int currentThisPage;
 
-    // adding xong
     public static ShotRecentFragment newInstance() {
         return new ShotRecentFragment();
     }
@@ -58,7 +58,7 @@ public class ShotRecentFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recyclerview_shot, container, false);
+        View view = inflater.inflate(R.layout.recyclerview_shot_recents, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -67,6 +67,31 @@ public class ShotRecentFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        currentThisPage = 1;
+        configRecyclerView();
+        fetchData(sortMode, currentThisPage);
+        loadMore();
+        pullRefresh();
+    }
+
+    private void pullRefresh() {
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                shotArrayList.clear();
+                fetchData(sortMode, currentThisPage);
+            }
+        });
+        swipeContainer.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_purple,
+                android.R.color.holo_green_dark);
+    }
+
+    private void configRecyclerView() {
         RecyclerView.LayoutManager layoutManager;
 
         if (GRID_LAYOUT) {
@@ -77,17 +102,7 @@ public class ShotRecentFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        //Use this now
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-        //create song data
-
-        currentThisPage = 1;
-        configRecyclerView();
-        fetchData(sortMode, currentThisPage);
-        loadMore();
-    }
-
-    private void configRecyclerView() {
         shotArrayList = new ArrayList<>();
         mShotAdapter = new ShotAdapter(getContext(), shotArrayList);
         rvShot.setAdapter(mShotAdapter);
@@ -102,9 +117,10 @@ public class ShotRecentFragment extends Fragment {
                 Log.d("HuuRetro", String.valueOf(response.isSuccessful()));
                 shotArrayList.addAll(response.body());
                 mShotAdapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+
                 progressBar.setVisibility(View.GONE);
 
-//                Toast.makeText(getContext(), String.valueOf(linearLayoutManager.getItemCount()), Toast.LENGTH_SHORT).show();
             }
 
             @Override

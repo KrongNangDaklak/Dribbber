@@ -20,13 +20,19 @@ public class ViewPagerActivity extends AppCompatActivity {
     private MaterialViewPager mViewPager;
     private Toolbar toolbar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pager);
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
 
+        setupToolbarAndHeader();
+        setupViewPager();
+        setupViewPagerUI();
+
+    }
+
+    private void setupToolbarAndHeader() {
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -38,6 +44,22 @@ public class ViewPagerActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+
+//        View logo = findViewById(R.id.logo_white);
+        View logo = null;
+        if (logo != null) {
+            logo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewPager.notifyHeaderChanged();
+                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void setupViewPager() {
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
@@ -76,7 +98,12 @@ public class ViewPagerActivity extends AppCompatActivity {
                 return "";
             }
         });
+        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
+        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
+    }
+
+    private void setupViewPagerUI() {
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
             public HeaderDesign getHeaderDesign(int page) {
@@ -102,21 +129,6 @@ public class ViewPagerActivity extends AppCompatActivity {
                 return null;
             }
         });
-
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
-        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-
-//        View logo = findViewById(R.id.logo_white);
-        View logo = null;
-        if (logo != null) {
-            logo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mViewPager.notifyHeaderChanged();
-                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 
 }

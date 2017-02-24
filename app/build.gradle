@@ -40,4 +40,5 @@ dependencies {
     compile('com.github.florent37:materialviewpager:1.2.0@aar') {
         transitive = true
     }
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 }

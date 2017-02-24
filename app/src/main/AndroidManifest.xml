@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ViewPagerActivity" />
+        <activity android:name=".activity.ShotDetailActivity"></activity>
     </application>
 
 </manifest>

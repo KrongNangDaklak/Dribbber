@@ -1,9 +1,16 @@
 
 package com.example.hoang.dribber.model;
 
-import java.util.List;
+import android.text.format.DateUtils;
+
+import com.example.hoang.dribber.utils.FormatDatime;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
 
 public class Shot {
     @SerializedName("id")
@@ -87,13 +94,13 @@ public class Shot {
 
     /**
      * No args constructor for use in serialization
-     * 
+     *
      */
     public Shot() {
     }
 
     /**
-     * 
+     *
      * @param tags
      * @param animated
      * @param bucketsCount
@@ -248,7 +255,7 @@ public class Shot {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return FormatDatime.getRelativeTimeAgo(createdAt);
     }
 
     public void setCreatedAt(String createdAt) {
@@ -256,7 +263,7 @@ public class Shot {
     }
 
     public String getUpdatedAt() {
-        return updatedAt;
+        return FormatDatime.getRelativeTimeAgo(updatedAt);
     }
 
     public void setUpdatedAt(String updatedAt) {
