@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.hoang.dribber.R;
 import com.example.hoang.dribber.model.Shot;
 import com.example.hoang.dribber.remote.DribberApi;
@@ -20,10 +21,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ShotDetailActivity extends AppCompatActivity {
-    @BindView(R.id.tvDetail)
-    TextView textView;
-    @BindView(R.id.listviewPro)
-    ListView listView;
+    @BindView(R.id.backdrop)
+    ImageView imageView;
+    @BindView(R.id.tvShotNames)
+    TextView tvShotNames;
+    @BindView(R.id.tvUser)
+    TextView tvUser;
+    @BindView(R.id.tvViewCount)
+    TextView tvViewCount;
+    @BindView(R.id.tvLikeCount)
+    TextView tvLikeCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +38,21 @@ public class ShotDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shot_detail);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 123);
-        textView.setText(String.valueOf(id));
+        final int id = intent.getIntExtra("id", 123);
 
 
         DribberApi.Factory.getInstance().getShotDetail(id, DribberApi.ACCESS_TOKEN).enqueue(new Callback<Shot>() {
             @Override
             public void onResponse(Call<Shot> call, Response<Shot> response) {
                 Log.d("HuuDetail", String.valueOf(response.isSuccessful()));
+                Glide.with(getApplicationContext())
+                        .load(response.body().getImages().getTeaser())
+                        .placeholder(R.mipmap.ic_launcher)
+                        .into(imageView);
+                tvShotNames.setText(response.body().getTitle());
+                tvUser.setText("By" + response.body().getUser().getName());
+                tvViewCount.setText(String.valueOf(response.body().getViewsCount()));
+                tvLikeCount.setText(String.valueOf(response.body().getLikesCount()));
                 String[] abc = {
                         String.valueOf(response.body().getId()),
                         String.valueOf(response.body().getTitle()),
@@ -76,8 +90,8 @@ public class ShotDetailActivity extends AppCompatActivity {
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
                         android.R.layout.simple_list_item_1, android.R.id.text1, abc);
-                listView.setAdapter(adapter);
             }
+
 
             @Override
             public void onFailure(Call<Shot> call, Throwable t) {
