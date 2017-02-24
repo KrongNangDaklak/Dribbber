@@ -1,11 +1,13 @@
 package com.example.hoang.dribber.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.hoang.dribber.R;
@@ -29,7 +31,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private ShotAdapter mShotAdapter;
-    ArrayList<Shot> shotArrayList;
+    private ArrayList<Shot> shotArrayList;
     @BindView(R.id.rcShot)
     RecyclerView rvShot;
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -86,4 +88,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void clickf(View view) {
+        startActivity(new Intent(MainActivity.this, ViewPagerActivity.class));
+
+    }
 }
