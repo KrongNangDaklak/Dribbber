@@ -91,5 +91,7 @@
 <li>15/09: Aply DataBiding</li>
 <li>18/09: Use <a href="https://github.com/tikivn/NoAdapter">NoAdapter</a> from Tiki team to easy display Recyclerview</li>
 <li>23/09 thinking about apply <strong><a href="https://developer.android.com/guide/navigation">Navigation Component</a></strong> in to app to navigate app screen more cleaning</li>
+<li>23/09: thinking about change any Recyclerview to <code>Epoxy</code> libraly for all Recyclerview to performance app and quickly setup.</li>
+<li></li>
 </ul>
 
