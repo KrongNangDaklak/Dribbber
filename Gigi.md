@@ -23,23 +23,20 @@
 <h2 id="technical">#001 Technical</h2>
 <h3 id="architecture">#001.01 Architecture</h3>
 <ul>
-<li><strong>Three of layers explaintation</strong>
-<ul>
 <li>
-<p><strong>Domain</strong>: Responsibility to excute all application UseCase,(Business)with thread handler.<br>
+<p><strong>Three of layers explaintation</strong></p>
+<ul>
+<li><strong>Domain</strong>: Responsibility to excute all application UseCase,(Business)with thread handler.<br>
 - Input: Params (optionnal)<br>
 - Output: Data needed.<br>
-- <strong>Two types (ways of UseCase)</strong></p>
+- <strong>Two types (ways of UseCase)</strong>
 <ul>
 <li><strong>Observable</strong> UseCase</li>
 <li><strong>Suspend UseCase</strong> ( like <code>Await</code> in other languages) with Kotlin Couroutines</li>
 </ul>
 </li>
-<li>
-<p><strong>Data</strong>: Responsibility to interact with awsonme things from internet, cache, to get the data and parsing it into <strong>Entity</strong>. Which needed from <strong>Domain</strong> layer</p>
-</li>
-<li>
-<p><strong>Mobile UI</strong>: Expose all app User Interface, Details of MVPVM- DataBinding</p>
+<li><strong>Data</strong>: Responsibility to interact with awsonme things from internet, cache, to get the data and parsing it into <strong>Entity</strong>. Which needed from <strong>Domain</strong> layer</li>
+<li><strong>Mobile UI</strong>: Expose all app User Interface, Details of MVPVM- DataBinding
 <ul>
 <li><strong>Model</strong>: Presenting app infomation as Model, kclass.</li>
 <li><strong>View</strong>: Exactly User interface, include View,Fragment, Activity, Dialog, bla bla…<br>
@@ -52,8 +49,7 @@
 - Pasing data into <strong>ViewModel</strong></li>
 </ul>
 </li>
-<li>
-<p><strong>Model <em>type</em> and <em>rule</em>:</strong></p>
+<li><strong>Model <em>type</em> and <em>rule</em>:</strong>
 <ul>
 <li><strong>DTO</strong>: Model for Data layer</li>
 <li><strong>Entity</strong>: Model for Domain layer</li>
@@ -61,9 +57,17 @@
 <li><strong>ViewModel</strong>: Present Model for User Interface with Lifecycle Aware.</li>
 <li><strong>Rule</strong>: Inner layer don’t call Outer layer. They speaking via the Bridge (in our app, we call it by <code>Mapper</code> class)</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/bufferapp/android-clean-architecture-boilerplate/master/art/data.png" alt="enter image description here"></p>
 </li>
 </ul>
+</li>
+<li>
+<p><strong>App archiecture Diagram</strong>:</p>
+<ul>
+<li><strong>Figure 01:</strong> Three layer structure	<br>
+<img src="https://github.com/bufferapp/android-clean-architecture-boilerplate/raw/master/art/ui.png?raw=true" alt="enter image description here"></li>
+</ul>
+<p>-<strong>Figure 02</strong>: 	Detail of Data Layer<br>
+<img src="https://raw.githubusercontent.com/bufferapp/android-clean-architecture-boilerplate/master/art/data.png" alt="enter image description here"></p>
 </li>
 </ul>
 <h2 id="techical-used">Techical used</h2>
@@ -92,6 +96,24 @@
 <li>18/09: Use <a href="https://github.com/tikivn/NoAdapter">NoAdapter</a> from Tiki team to easy display Recyclerview</li>
 <li>23/09 thinking about apply <strong><a href="https://developer.android.com/guide/navigation">Navigation Component</a></strong> in to app to navigate app screen more cleaning</li>
 <li>23/09: thinking about change any Recyclerview to <code>Epoxy</code> libraly for all Recyclerview to performance app and quickly setup.</li>
+<li>24/09:
+<ul>
+<li>
+<p>Change the home UI</p>
+</li>
+<li>
+<p>Apply splash screen:</p>
+<ul>
+<li>Logo with animation</li>
+<li>check login model defined and complete the follow (with old MVP but useful for our case). <strong>Navigate</strong> screen depend on login state</li>
+<li>Implement <strong>UserManager</strong> to easy caching the <strong>UserInfo</strong> into Memory</li>
+</ul>
+</li>
+<li>
+<p>Some mistake, app’s home always shown, not depend on account,</p>
+</li>
 <li></li>
+</ul>
+</li>
 </ul>
 
